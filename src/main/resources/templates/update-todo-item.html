@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.min.css} " />
+</head>
+
+<body>
+<!--    <div id="result" />-->
+    <div class="container">
+        <div class="col-md-6">
+            <form id="todo" th:object="${todo}">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input class="form-control" type="text" th:field="*{description}" id="description"
+                            placeholder="Add a description" maxlength="100">
+                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" th:checked="${complete} == true" th:field="*{complete}" id="complete" />
+<!--                        <input type="checkbox" th:attr="checked=${complete == true?true:false}" th:field="*{complete}" id="complete" />-->
+                        Complete
+                    </label>
+                </div>
+                <button class="btn btn-success" type="button" onclick="update_todo()">Update</button>
+                <input type="hidden" th:field="*{createdDate}" id="createdDate"/>
+                <input type="hidden" th:field="*{modifiedDate}" id="modifiedDate"/>
+                <input type="hidden" th:field="*{id}" id="id"/>
+                <input type="hidden" th:field="*{userId}" id="userId"/>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function update_todo() {
+        var updateResult = false;
+        var id = $("#id").val();
+        var userId = $("#userId").val();
+        var description = $("#description").val();
+        var complete = $("#complete").val();
+        var createdDate = $("#createdDate").val();
+
+        var data = {
+            id:id,
+            userId:userId,
+            description:description,
+            complete:complete,
+            createdDate:createdDate
+        };
+
+        $(function() {
+            // 获取token
+            var token = localStorage.getItem('token');
+            // 将token设置到请求头headers中
+            $.ajaxSetup({
+                async: false,
+                headers:{
+                    'token':token
+                }
+            })
+        });
+        $.ajax({
+            url: "/updateTodo",
+            type: "post",
+            contentType:"application/json",
+            data: JSON.stringify(data),
+            async: false,
+            success: function (res) {
+                console.log(res);
+                if (res.code != 200){
+                    alert(res.msg);
+                } else {
+                    updateResult = true;
+                }
+            },
+            error: function (e) {
+                alert(e.responseText);
+            }
+        });
+
+        if (updateResult){
+            /*$.ajax({
+                url: "/index",
+                type: "get",
+                contentType:"application/json",
+                success: function (res){
+                    document.write(res);
+                    // $("#result").html(res);
+                },
+                error: function (e) {
+                    alert(e.responseText);
+                }
+            });*/
+            window.location.href = "/indexPage";
+        }
+    }
+</script>
