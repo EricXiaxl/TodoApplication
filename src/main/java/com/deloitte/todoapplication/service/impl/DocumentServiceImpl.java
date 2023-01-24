@@ -6,10 +6,15 @@ import com.deloitte.todoapplication.service.DocumentService;
 import com.deloitte.todoapplication.util.DocumentUtil;
 import com.deloitte.todoapplication.util.IDGeneratorUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.Instant;
+import java.util.Arrays;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
@@ -42,5 +47,48 @@ public class DocumentServiceImpl implements DocumentService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void queryDocument(long id,HttpServletResponse response) {
+        OutputStream outputStream = null;
+        try {
+            Document document = documentDao.findDocumentById(id);
+            if(document==null){
+                throw new Exception("The document is empty.");
+            }
+            String fileName  = document.getFileName();
+            String suffix = document.getFileType(); //get file type
+            String[] images = {"jpg","jpeg","bmp","gif","png"};
+            byte[] data = document.getData();
+            if (data != null) {
+                //File Download Settings
+                response.reset();
+                //Determine whether the file is an image
+                if(suffix!=null && useList(images,suffix.toLowerCase())){
+                    response.setContentType("image/jpg");
+                }else{
+                    response.setContentType("application/force-download;charset=utf-8");
+                }
+                response.setCharacterEncoding("utf-8");
+                response.setHeader("Content-Disposition", "attachment;fileName="+fileName);
+                outputStream = response.getOutputStream();
+                outputStream.write(data);
+                outputStream.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private boolean useList(String[] arr,String targetValue){
+        return Arrays.asList(arr).contains(targetValue);
     }
 }
