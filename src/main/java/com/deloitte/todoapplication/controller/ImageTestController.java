@@ -12,6 +12,7 @@ public class ImageTestController {
     @PostMapping(value = "/testCompressImage")
     public @ResponseBody void testCompressImage(){
         File inputFile = new File("test.jpg");
-        ImageUtil.compressImage(inputFile);
+        ImageUtil.jdkCompressImage(inputFile);
+//        ImageUtil.openCVCompressImage("test.jpg");
     }
 }
