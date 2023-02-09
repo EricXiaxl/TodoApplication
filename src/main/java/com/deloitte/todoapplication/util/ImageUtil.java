@@ -34,7 +34,7 @@ public class ImageUtil {
             ImageWriteParam param = writer.getDefaultWriteParam();
 
             param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-            param.setCompressionQuality(0.15f);
+            param.setCompressionQuality(0.15f); //0.01-1
 
             writer.write(null, new IIOImage(image, null, null), param);
 
@@ -52,7 +52,7 @@ public class ImageUtil {
 
             //Compress image
             Mat srcImage = Imgcodecs.imread(fileName);
-            MatOfInt dstImage = new MatOfInt(Imgcodecs.IMWRITE_JPEG_QUALITY, 15);
+            MatOfInt dstImage = new MatOfInt(Imgcodecs.IMWRITE_JPEG_QUALITY, 15);   //1-100
             Imgcodecs.imwrite("resized_img.jpg", srcImage, dstImage);
         }catch (Exception e) {
             e.printStackTrace();
