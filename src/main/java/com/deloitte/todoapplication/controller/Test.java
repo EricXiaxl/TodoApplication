@@ -9,8 +9,10 @@ public class Test {
         /*File inputFile = new File("test.jpg");
         ImageUtil.jdkCompressImage(inputFile);*/
 
+        
+
 //        ImageUtil.openCVCompressImage("test.jpg");
 
-        ImageUtil.blurryDetect("b10.jpg");
+//        ImageUtil.blurryDetect("b10.jpg");
     }
 }

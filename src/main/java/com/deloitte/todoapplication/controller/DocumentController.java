@@ -4,6 +4,7 @@ import com.deloitte.todoapplication.domain.ResponseResult;
 import com.deloitte.todoapplication.dto.DocumentDto;
 import com.deloitte.todoapplication.pojo.Document;
 import com.deloitte.todoapplication.service.DocumentService;
+import com.deloitte.todoapplication.util.DocumentUtil;
 import com.deloitte.todoapplication.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 
 @RestController
 public class DocumentController {
@@ -30,15 +32,18 @@ public class DocumentController {
         }
 
         try {
-            String token = httpServletRequest.getHeader("token");
+            /*String token = httpServletRequest.getHeader("token");
             Claims claims = JwtUtil.parseJWT(token);
             String userId = claims.getSubject();
 
             if (null == userId) {
                 return new ResponseResult(HttpStatus.PRECONDITION_FAILED.value(), "UserId is null");
-            }
+            }*/
 
-            Document document = documentService.saveDocument(file, userId);
+            String userId = "1";
+            File pdfFile = DocumentUtil.generatePdfFile(file);
+            MultipartFile multipartFile = DocumentUtil.fileToMultipartFile(pdfFile);
+            Document document = documentService.saveDocument(multipartFile, userId);
             if(document==null){
                 LOGGER.error("save document error !!!");
                 throw new Exception();

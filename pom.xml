@@ -145,6 +145,16 @@
 			<artifactId>opencv</artifactId>
 			<version>4.5.1-2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>5.3.9</version>
+		</dependency>
 	</dependencies>
 
 	<build>

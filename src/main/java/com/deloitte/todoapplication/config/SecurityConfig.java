@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/static/**", "/css/**", "/webjars/**","/js/**","/","/loginPage","/indexPage","/registerPage","/h2-console/**","/createTodoPage","/showUpdateForm/**").permitAll()
                 // For the login and registration interfaces, allow anonymous access
-                .antMatchers("/login", "/register").anonymous()
+                .antMatchers("/login", "/register", "/uploadDocument").anonymous()
                 // All requests except the above require authentication
                 .anyRequest().authenticated();
 
