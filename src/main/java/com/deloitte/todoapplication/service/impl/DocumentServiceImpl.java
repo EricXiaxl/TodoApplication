@@ -6,7 +6,6 @@ import com.deloitte.todoapplication.service.DocumentService;
 import com.deloitte.todoapplication.util.DocumentUtil;
 import com.deloitte.todoapplication.util.IDGeneratorUtil;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -40,6 +39,7 @@ public class DocumentServiceImpl implements DocumentService {
             if(data==null){
                 throw new Exception("parsing file exception");
             }
+
             document.setData(data);
             document.setCreateTime(Instant.now());
             return documentDao.save(document);
@@ -59,7 +59,9 @@ public class DocumentServiceImpl implements DocumentService {
             String fileName  = document.getFileName();
             String suffix = document.getFileType(); //get file type
             String[] images = {"jpg","jpeg","bmp","gif","png"};
+
             byte[] data = document.getData();
+
             if (data != null) {
                 //File Download Settings
                 response.reset();

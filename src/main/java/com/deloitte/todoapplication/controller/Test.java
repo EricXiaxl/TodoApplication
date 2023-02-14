@@ -6,10 +6,8 @@ import java.io.File;
 
 public class Test {
     public static void main(String[] args){
-        /*File inputFile = new File("test.jpg");
-        ImageUtil.jdkCompressImage(inputFile);*/
-
-        
+        File inputFile = new File("b1.jpg");
+        ImageUtil.jdkCompressImage(inputFile);
 
 //        ImageUtil.openCVCompressImage("test.jpg");
 

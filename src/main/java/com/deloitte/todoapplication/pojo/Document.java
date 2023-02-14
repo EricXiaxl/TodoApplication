@@ -1,6 +1,9 @@
 package com.deloitte.todoapplication.pojo;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
+import java.sql.Blob;
 import java.time.Instant;
 import java.util.Arrays;
 
@@ -13,6 +16,7 @@ public class Document {
     private String fileName;
     private Long size;
     private String fileType;
+    @Lob
     private byte[] data;
     private String aliasName;
     private Instant createTime;
@@ -82,19 +86,5 @@ public class Document {
 
     public void setUploadorId(Long uploadorId) {
         this.uploadorId = uploadorId;
-    }
-
-    @Override
-    public String toString() {
-        return "Document{" +
-                "id=" + id +
-                ", fileName='" + fileName + '\'' +
-                ", size=" + size +
-                ", fileType='" + fileType + '\'' +
-                ", data=" + Arrays.toString(data) +
-                ", aliasName='" + aliasName + '\'' +
-                ", createTime=" + createTime +
-                ", uploadorId=" + uploadorId +
-                '}';
     }
 }
