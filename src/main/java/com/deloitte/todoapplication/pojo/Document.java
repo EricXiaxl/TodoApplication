@@ -1,11 +1,7 @@
 package com.deloitte.todoapplication.pojo;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
-import java.sql.Blob;
 import java.time.Instant;
-import java.util.Arrays;
 
 @Entity
 @Table(name = "document")
